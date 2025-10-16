@@ -8,16 +8,16 @@ Realizzare un sito WordPress completo utilizzando Docker Compose per lo sviluppo
 ### Specifiche Tecniche
 
 #### 🔧 Configurazione di Base
-- **Porta di esposizione**: `8000` (HTTP)
-- **Database**: MariaDB/MySQL
-- **Web Server**: Apache (integrato nel container WordPress)
-- **PHP**: Ultima versione stabile supportata da WordPress
-- **Gestione SSL**: Non necessaria (gestita lato server)
+**Porta di esposizione**: `7000` (HTTP)
+**Database**: MariaDB/MySQL
+**Web Server**: Apache (integrato nel container WordPress)
+**PHP**: Ultima versione stabile supportata da WordPress
+**Gestione SSL**: Non necessaria (gestita lato server)
 
 #### 🐳 Servizi Docker
 1. **WordPress** (`wordpress:latest`)
    - Container principale con WordPress + Apache + PHP
-   - Esposto sulla porta 8000
+   - Esposto sulla porta 7000
    - Volumi persistenti per files e uploads
 
 2. **Database** (`mariadb:latest`)
@@ -50,7 +50,7 @@ Realizzare un sito WordPress completo utilizzando Docker Compose per lo sviluppo
 - **File sensibili**: `.env` escluso dal versioning
 
 #### 🌐 Accesso Applicazione
-- **WordPress**: `http://localhost:8000`
+- **WordPress**: `http://localhost:7000`
 - **phpMyAdmin**: `http://localhost:8080` (se abilitato)
 - **Database**: Accessibile solo internamente tra container
 
