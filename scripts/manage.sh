@@ -11,7 +11,7 @@ case "$1" in
         echo "🚀 Avvio servizi WordPress..."
         docker compose up -d
         echo "✅ Servizi avviati!"
-        echo "🌐 WordPress: http://localhost:8000"
+        echo "🌐 WordPress: http://localhost:7000"
         echo "🗄️  phpMyAdmin: http://localhost:8080"
         ;;
     "stop")
@@ -81,8 +81,8 @@ case "$1" in
         ;;
     "health")
         echo "🏥 Health check servizi..."
-        echo -n "WordPress (8000): "
-        curl -s -o /dev/null -w "%{http_code}" http://localhost:8000 && echo " ✅" || echo " ❌"
+        echo -n "WordPress (7000): "
+        curl -s -o /dev/null -w "%{http_code}" http://localhost:7000 && echo " ✅" || echo " ❌"
         echo -n "phpMyAdmin (8080): "
         curl -s -o /dev/null -w "%{http_code}" http://localhost:8080 && echo " ✅" || echo " ❌"
         ;;
@@ -108,7 +108,7 @@ case "$1" in
         echo "  health     - Health check dei servizi"
         echo ""
         echo "Accesso diretto:"
-        echo "  WordPress: http://localhost:8000"
+        echo "  WordPress: http://localhost:7000"
         echo "  phpMyAdmin: http://localhost:8080"
         ;;
 esac
