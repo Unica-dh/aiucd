@@ -95,9 +95,8 @@ journalctl -u actions.runner.* -f
 sudo mkdir -p /var/www/aiucd
 sudo chown $USER:$USER /var/www/aiucd
 
-# Crea directory backup
-sudo mkdir -p /var/backups/aiucd
-sudo chown $USER:$USER /var/backups/aiucd
+# La directory backup viene creata automaticamente dal workflow nel progetto
+# Non servono permessi speciali perché è locale al progetto
 
 # Il runner lavorerà in ~/actions-runner/_work/aiucd/aiucd
 # e deploierà da lì

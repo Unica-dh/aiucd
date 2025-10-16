@@ -16,6 +16,10 @@ wordpress/wp-config.php
 # Database volumes  
 database/
 
+# Backups
+backups/
+*.sql
+
 # Logs
 logs/
 *.log

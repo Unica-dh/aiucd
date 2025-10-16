@@ -28,8 +28,8 @@ jobs:
       - name: 💾 Backup Database
         run: |
           echo "Creating database backup..."
-          mkdir -p /var/backups/aiucd
-          BACKUP_FILE="/var/backups/aiucd/db_backup_$(date +%Y%m%d_%H%M%S).sql"
+          mkdir -p ./backups
+          BACKUP_FILE="./backups/db_backup_$(date +%Y%m%d_%H%M%S).sql"
           
           # Source environment variables
           if [ -f .env ]; then
@@ -43,7 +43,7 @@ jobs:
             if [ -f "$BACKUP_FILE" ]; then
               echo "✅ Backup saved: $BACKUP_FILE"
               # Keep only last 10 backups
-              ls -t /var/backups/aiucd/db_backup_*.sql | tail -n +11 | xargs -r rm
+              ls -t ./backups/db_backup_*.sql 2>/dev/null | tail -n +11 | xargs -r rm
             fi
           else
             echo "⚠️  Skipping backup - containers not running (first deploy?)"
@@ -92,7 +92,7 @@ jobs:
           MAX_ATTEMPTS=30
           ATTEMPT=0
           while [ $ATTEMPT -lt $MAX_ATTEMPTS ]; do
-            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8000 || echo "000")
+            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:7000 || echo "000")
             
             if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "302" ]; then
               echo "✅ WordPress is responding (HTTP $HTTP_CODE)"
@@ -145,7 +145,7 @@ jobs:
           echo "================================"
           echo "✅ DEPLOYMENT SUCCESSFUL"
           echo "================================"
-          echo "🌐 WordPress: http://localhost:8000"
+          echo "🌐 WordPress: http://localhost:7000"
           echo "🗄️  phpMyAdmin: http://localhost:8080"
           echo "📅 Deployed at: $(date)"
           echo "🔖 Commit: ${{ github.sha }}"
@@ -159,7 +159,7 @@ jobs:
           echo "================================"
           
           # Try to restore from latest backup
-          LATEST_BACKUP=$(ls -t /var/backups/aiucd/db_backup_*.sql 2>/dev/null | head -n 1)
+          LATEST_BACKUP=$(ls -t ./backups/db_backup_*.sql 2>/dev/null | head -n 1)
           
           if [ -n "$LATEST_BACKUP" ]; then
             echo "📥 Restoring database from: $LATEST_BACKUP"
