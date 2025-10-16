@@ -1,7 +1,7 @@
 services:
   # WordPress Service
   wordpress:
-    image: wordpress:latest
+    image: wordpress:6.8.3-apache
     container_name: aiucd_wordpress
     restart: unless-stopped
     ports:
@@ -20,7 +20,10 @@ services:
       WORDPRESS_LOGGED_IN_SALT: ${WORDPRESS_LOGGED_IN_SALT}
       WORDPRESS_NONCE_SALT: ${WORDPRESS_NONCE_SALT}
     volumes:
-      - wordpress_data:/var/www/html
+      # Bind mount per codice versionabile
+      - ./wordpress:/var/www/html
+      # Volume separato per uploads (file utente)
+      - wordpress_uploads:/var/www/html/wp-content/uploads
     depends_on:
       - db
     networks:
@@ -28,7 +31,7 @@ services:
 
   # MariaDB Database Service
   db:
-    image: mariadb:latest
+    image: mariadb:10.11.5
     container_name: aiucd_database
     restart: unless-stopped
     environment:
@@ -43,7 +46,7 @@ services:
 
   # phpMyAdmin Service (Optional)
   phpmyadmin:
-    image: phpmyadmin:latest
+    image: phpmyadmin:5.2.1
     container_name: aiucd_phpmyadmin
     restart: unless-stopped
     ports:
@@ -59,7 +62,7 @@ services:
 
 # Named Volumes for Data Persistence
 volumes:
-  wordpress_data:
+  wordpress_uploads:
     driver: local
   db_data:
     driver: local

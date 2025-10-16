@@ -1,8 +1,17 @@
 # Environment files
 .env
 
-# WordPress volumes
-wordpress/
+# WordPress - Ignora uploads ma mantieni codice versionabile
+wordpress/wp-content/uploads/
+wordpress/.htaccess
+wordpress/wp-config.php
+
+# WordPress core files - opzionale: puoi scegliere se versionare o no
+# wordpress/wp-admin/
+# wordpress/wp-includes/
+# wordpress/index.php
+# wordpress/wp-*.php
+# !wordpress/wp-content/
 
 # Database volumes  
 database/
