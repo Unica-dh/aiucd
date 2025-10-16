@@ -15,15 +15,26 @@ case "$1" in
         echo "🗄️  phpMyAdmin: http://localhost:8080"
         ;;
     "stop")
-        echo "⏹️  Arresto servizi..."
-        docker compose down
+        echo "⏹️  Arresto servizi (mantiene container)..."
+        docker compose stop
         echo "✅ Servizi arrestati!"
+        ;;
+    "down")
+        echo "🛑 Spegnimento completo (rimuove container)..."
+        docker compose down
+        echo "✅ Container rimossi!"
         ;;
     "restart")
         echo "🔄 Riavvio servizi..."
+        docker compose stop
+        docker compose start
+        echo "✅ Servizi riavviati!"
+        ;;
+    "rebuild")
+        echo "🔄 Ricostruzione completa..."
         docker compose down
         docker compose up -d
-        echo "✅ Servizi riavviati!"
+        echo "✅ Servizi ricostruiti!"
         ;;
     "status")
         echo "📊 Status servizi:"
@@ -82,8 +93,10 @@ case "$1" in
         echo ""
         echo "Comandi disponibili:"
         echo "  start      - Avvia tutti i servizi"
-        echo "  stop       - Ferma tutti i servizi"
-        echo "  restart    - Riavvia tutti i servizi"
+        echo "  stop       - Ferma servizi (mantiene container e dati)"
+        echo "  down       - Spegne e rimuove container (mantiene volumi)"
+        echo "  restart    - Riavvia servizi (stop + start)"
+        echo "  rebuild    - Ricostruzione completa (down + up)"
         echo "  status     - Mostra lo status dei container"
         echo "  logs       - Mostra logs di tutti i servizi"
         echo "  logs-wp    - Mostra logs solo WordPress"
