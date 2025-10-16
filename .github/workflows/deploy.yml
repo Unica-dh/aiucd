@@ -1,0 +1,181 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:  # Permette deploy manuale
+
+jobs:
+  deploy:
+    name: Deploy WordPress to Production
+    runs-on: self-hosted  # Usa runner sul server di produzione
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: 📋 Display deployment info
+        run: |
+          echo "🚀 Deploying to Production"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "Author: ${{ github.actor }}"
+          echo "Message: ${{ github.event.head_commit.message }}"
+      
+      - name: 💾 Backup Database
+        run: |
+          echo "Creating database backup..."
+          mkdir -p /var/backups/aiucd
+          BACKUP_FILE="/var/backups/aiucd/db_backup_$(date +%Y%m%d_%H%M%S).sql"
+          
+          # Source environment variables
+          if [ -f .env ]; then
+            export $(cat .env | grep -v '^#' | xargs)
+          fi
+          
+          # Backup only if containers are running
+          if docker compose ps | grep -q "Up"; then
+            docker compose exec -T db mysqldump -u root -p"${MYSQL_ROOT_PASSWORD}" wordpress > "$BACKUP_FILE" 2>/dev/null || echo "⚠️  Database backup skipped (containers not running or first deploy)"
+            
+            if [ -f "$BACKUP_FILE" ]; then
+              echo "✅ Backup saved: $BACKUP_FILE"
+              # Keep only last 10 backups
+              ls -t /var/backups/aiucd/db_backup_*.sql | tail -n +11 | xargs -r rm
+            fi
+          else
+            echo "⚠️  Skipping backup - containers not running (first deploy?)"
+          fi
+      
+      - name: 🔧 Update Configuration
+        run: |
+          echo "Checking configuration files..."
+          
+          # Ensure .env exists (don't overwrite if exists)
+          if [ ! -f .env ]; then
+            if [ -f .env.example ]; then
+              echo "⚠️  .env not found, copying from .env.example"
+              cp .env.example .env
+              echo "❌ CRITICAL: Update .env with production credentials!"
+              exit 1
+            else
+              echo "❌ ERROR: Neither .env nor .env.example found!"
+              exit 1
+            fi
+          fi
+          
+          echo "✅ Configuration OK"
+      
+      - name: 🐳 Deploy Docker Containers
+        run: |
+          echo "Deploying containers..."
+          
+          # Stop existing containers
+          docker compose down || true
+          
+          # Pull latest images (only if newer versions available)
+          docker compose pull --quiet
+          
+          # Start containers
+          docker compose up -d --build
+          
+          echo "✅ Containers deployed"
+      
+      - name: 🏥 Health Check
+        run: |
+          echo "Running health checks..."
+          sleep 10  # Wait for services to start
+          
+          # Check WordPress
+          MAX_ATTEMPTS=30
+          ATTEMPT=0
+          while [ $ATTEMPT -lt $MAX_ATTEMPTS ]; do
+            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8000 || echo "000")
+            
+            if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "302" ]; then
+              echo "✅ WordPress is responding (HTTP $HTTP_CODE)"
+              break
+            fi
+            
+            ATTEMPT=$((ATTEMPT + 1))
+            echo "⏳ Waiting for WordPress... attempt $ATTEMPT/$MAX_ATTEMPTS"
+            sleep 2
+          done
+          
+          if [ $ATTEMPT -eq $MAX_ATTEMPTS ]; then
+            echo "❌ WordPress health check failed!"
+            docker compose logs wordpress
+            exit 1
+          fi
+          
+          # Check phpMyAdmin
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080 || echo "000")
+          if [ "$HTTP_CODE" = "200" ]; then
+            echo "✅ phpMyAdmin is responding"
+          else
+            echo "⚠️  phpMyAdmin not responding (non-critical)"
+          fi
+          
+          # Check container status
+          if docker compose ps | grep -q "Exit"; then
+            echo "❌ Some containers exited!"
+            docker compose ps
+            docker compose logs
+            exit 1
+          fi
+          
+          echo "✅ All health checks passed"
+      
+      - name: 🧹 Cleanup
+        if: always()
+        run: |
+          echo "Cleaning up..."
+          # Remove old Docker images
+          docker image prune -f --filter "until=24h" || true
+          
+          # Show final status
+          echo "Final container status:"
+          docker compose ps
+      
+      - name: 📊 Deployment Summary
+        if: success()
+        run: |
+          echo "================================"
+          echo "✅ DEPLOYMENT SUCCESSFUL"
+          echo "================================"
+          echo "🌐 WordPress: http://localhost:8000"
+          echo "🗄️  phpMyAdmin: http://localhost:8080"
+          echo "📅 Deployed at: $(date)"
+          echo "🔖 Commit: ${{ github.sha }}"
+          echo "================================"
+      
+      - name: 🔴 Rollback on Failure
+        if: failure()
+        run: |
+          echo "================================"
+          echo "❌ DEPLOYMENT FAILED - ROLLING BACK"
+          echo "================================"
+          
+          # Try to restore from latest backup
+          LATEST_BACKUP=$(ls -t /var/backups/aiucd/db_backup_*.sql 2>/dev/null | head -n 1)
+          
+          if [ -n "$LATEST_BACKUP" ]; then
+            echo "📥 Restoring database from: $LATEST_BACKUP"
+            
+            # Source environment variables
+            if [ -f .env ]; then
+              export $(cat .env | grep -v '^#' | xargs)
+            fi
+            
+            # Restore database
+            docker compose exec -T db mysql -u root -p"${MYSQL_ROOT_PASSWORD}" wordpress < "$LATEST_BACKUP" || echo "⚠️  Database restore failed"
+          fi
+          
+          # Restart containers
+          docker compose down
+          docker compose up -d
+          
+          echo "🔴 Please check logs for error details"
+          docker compose logs --tail=50
