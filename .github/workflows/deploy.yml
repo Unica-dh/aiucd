@@ -36,6 +36,29 @@ jobs:
           fetch-depth: 0
           clean: false  # Don't delete untracked files (WordPress runtime files)
       
+      - name: 🔍 Diagnostic - Analyze Permissions
+        run: |
+          echo "=== PERMISSION DIAGNOSTIC ==="
+          echo ""
+          echo "1. Current user and groups:"
+          whoami
+          id
+          echo ""
+          echo "2. WordPress directory ownership (top 20 files):"
+          ls -lah wordpress/ | head -n 20 || echo "wordpress/ not found"
+          echo ""
+          echo "3. Docker container www-data UID/GID (if running):"
+          docker compose exec -T wordpress id www-data 2>/dev/null || echo "Container not running"
+          echo ""
+          echo "4. wp-config.php ownership:"
+          ls -lah wordpress/wp-config.php 2>/dev/null || echo "wp-config.php not found"
+          echo ""
+          echo "5. Current directory:"
+          pwd
+          ls -lah
+          echo ""
+          echo "=== END DIAGNOSTIC ==="
+      
       - name: 📋 Display deployment info
         run: |
           echo "🚀 Deploying to Production"
