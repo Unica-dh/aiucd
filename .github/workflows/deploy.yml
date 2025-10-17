@@ -15,14 +15,19 @@ jobs:
       - name: 🧹 Pre-checkout Cleanup
         run: |
           echo "Cleaning workspace from Docker-created files..."
-          # Remove the entire working directory to avoid permission issues
-          # The checkout action will recreate it
-          cd ..
-          if [ -d aiucd ]; then
-            sudo rm -rf aiucd
+          # Stop containers first to release file locks
+          docker compose down 2>/dev/null || true
+          
+          # Use Docker to change ownership (runs as root inside container)
+          if [ -d wordpress ]; then
+            docker run --rm -v "$(pwd)/wordpress:/workspace" alpine:latest \
+              sh -c "chmod -R 777 /workspace" 2>/dev/null || true
           fi
-          mkdir -p aiucd
-          cd aiucd
+          
+          # Now we can safely remove everything
+          rm -rf wordpress 2>/dev/null || true
+          rm -rf database 2>/dev/null || true
+          
           echo "✅ Workspace cleaned"
       
       - name: 📥 Checkout code
