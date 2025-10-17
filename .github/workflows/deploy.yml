@@ -125,8 +125,20 @@ jobs:
           # Pull latest images (only if newer versions available)
           docker compose pull --quiet
           
-          # Start containers
-          docker compose up -d --build
+          # Start containers with proper user mapping
+          docker compose up -d
+          
+          # Wait a moment for containers to start
+          sleep 5
+          
+          # Show container status
+          echo "Container status:"
+          docker compose ps
+          
+          # Show container logs (last 20 lines)
+          echo ""
+          echo "WordPress container logs:"
+          docker compose logs --tail=20 wordpress
           
           echo "✅ Containers deployed"
       
@@ -141,13 +153,35 @@ jobs:
           while [ $ATTEMPT -lt $MAX_ATTEMPTS ]; do
             HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:7000 || echo "000")
             
-            if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "302" ]; then
+            # Accept 200, 301, 302 (all valid responses)
+            if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "301" ] || [ "$HTTP_CODE" = "302" ]; then
               echo "✅ WordPress is responding (HTTP $HTTP_CODE)"
+              
+              # Show actual response for debugging
+              echo ""
+              echo "WordPress response headers:"
+              curl -sI http://localhost:7000 | head -n 10
               break
             fi
             
             ATTEMPT=$((ATTEMPT + 1))
-            echo "⏳ Waiting for WordPress... attempt $ATTEMPT/$MAX_ATTEMPTS"
+            echo "⏳ Waiting for WordPress... attempt $ATTEMPT/$MAX_ATTEMPTS (HTTP: $HTTP_CODE)"
+            sleep 2
+          done
+          
+          if [ $ATTEMPT -eq $MAX_ATTEMPTS ]; then
+            echo "❌ WordPress health check failed!"
+            echo ""
+            echo "Container status:"
+            docker compose ps
+            echo ""
+            echo "WordPress logs:"
+            docker compose logs --tail=50 wordpress
+            echo ""
+            echo "Database logs:"
+            docker compose logs --tail=20 db
+            exit 1
+          fi
             sleep 2
           done
           
