@@ -5,6 +5,7 @@
 ## 📋 Requisiti del Progetto
 
 ### Obiettivo
+
 Realizzare un sito WordPress completo utilizzando Docker Compose per lo sviluppo e la produzione, con configurazione semplificata e ottimizzata.
 
 ### ✅ Stato del Progetto
@@ -19,6 +20,7 @@ Realizzare un sito WordPress completo utilizzando Docker Compose per lo sviluppo
 ### Specifiche Tecniche
 
 #### 🔧 Configurazione di Base
+
 **Porta di esposizione**: `7000` (HTTP)
 **Database**: MariaDB 10.11.5
 **Web Server**: Apache (integrato nel container WordPress)
@@ -27,6 +29,7 @@ Realizzare un sito WordPress completo utilizzando Docker Compose per lo sviluppo
 **Upload Limit**: 100MB per file
 
 #### 🐳 Servizi Docker
+
 1. **WordPress** (`wordpress:6.8.3-apache`)
    - Container principale con WordPress + Apache + PHP
    - Esposto sulla porta 7000
@@ -44,7 +47,8 @@ Realizzare un sito WordPress completo utilizzando Docker Compose per lo sviluppo
    - Esposto sulla porta 8080 per amministrazione
 
 #### 📁 Struttura Directory
-```
+
+```text
 /home/ale/docker/aiucd/
 ├── README.md                   # Questa guida
 ├── docker-compose.yml          # Configurazione Docker completa
@@ -79,6 +83,7 @@ Realizzare un sito WordPress completo utilizzando Docker Compose per lo sviluppo
 ```
 
 #### 🔐 Configurazione Sicurezza
+
 - **Credenziali database**: Gestite tramite file `.env`
 - **WordPress secrets**: Chiavi di sicurezza generate automaticamente
 - **Accesso database**: Solo rete interna Docker
@@ -88,6 +93,7 @@ Realizzare un sito WordPress completo utilizzando Docker Compose per lo sviluppo
 - **Upload security**: Limite 100MB, tipi file controllati da WordPress
 
 #### 🌐 Accesso Applicazione
+
 - **WordPress**: `http://localhost:7000`
 - **phpMyAdmin**: `http://localhost:8080` (se abilitato)
 - **Database**: Accessibile solo internamente tra container
@@ -95,11 +101,13 @@ Realizzare un sito WordPress completo utilizzando Docker Compose per lo sviluppo
 ## 📋 Requisiti Sistema
 
 ### Software Richiesti
+
 - **Docker**: versione 20.10+
 - **Docker Compose**: versione 2.0+
 - **Sistema Operativo**: Linux (testato), macOS, Windows con WSL2
 
 ### Risorse Hardware Minime
+
 - **RAM**: 1GB libera
 - **Storage**: 2GB liberi per volumi Docker
 - **CPU**: 1 core (2+ raccomandati)
@@ -107,6 +115,7 @@ Realizzare un sito WordPress completo utilizzando Docker Compose per lo sviluppo
 ## 🚀 Funzionalità
 
 ### Core Features Implementate
+
 - ✅ **WordPress 6.8.3** con Apache
 - ✅ **Database MariaDB 10.11.5** con persistenza
 - ✅ **Deploy automatico** via GitHub Actions
@@ -121,13 +130,15 @@ Realizzare un sito WordPress completo utilizzando Docker Compose per lo sviluppo
 - ✅ **Scripts di diagnostica** e fix automatici
 
 ### Configurazioni Ottimizzate
-- � **PHP Upload**: 100MB max file size
-- � **PHP Memory**: 256MB per WordPress
+
+- 📦 **PHP Upload**: 100MB max file size
+- 💾 **PHP Memory**: 256MB per WordPress
 - ⏱️ **Execution Time**: 300 secondi (5 minuti)
-- � **mod_rewrite**: Abilitato per permalink
+- 🔄 **mod_rewrite**: Abilitato per permalink
 - 🔐 **FS_METHOD**: Direct (no FTP)
 
 ### Features Escluse
+
 - ❌ **Gestione SSL/HTTPS** (gestita lato server)
 - ❌ **Reverse proxy Nginx** (non necessario)
 - ❌ **Load balancing** (single instance)
@@ -136,21 +147,24 @@ Realizzare un sito WordPress completo utilizzando Docker Compose per lo sviluppo
 ## 🎯 Casi d'Uso
 
 ### Sviluppo Locale
+
 - Ambiente WordPress completo per sviluppo temi/plugin
 - Database isolato per test
 - Reset rapido dell'ambiente
 
 ### Staging/Produzione
+
 - Deploy rapido su server
 - Configurazione consistente tra ambienti
 - Backup e restore semplificati
 
 ### Prototipazione
+
 - Setup veloce per demo e test
 - Configurazione minimal ma completa
 - Facile personalizzazione
 
-## �️ Troubleshooting
+## 🛠️ Troubleshooting
 
 ### Problema: Errore "La risposta non è una risposta JSON valida"
 
@@ -270,18 +284,21 @@ services:
 ### Volume Strategy
 
 **Bind Mount** per codice versionabile:
+
 ```yaml
 volumes:
   - ./wordpress:/var/www/html
 ```
 
 **Named Volume** solo per database:
+
 ```yaml
 volumes:
   - db_data:/var/lib/mysql
 ```
 
 **Configurazione PHP** via read-only mount:
+
 ```yaml
 volumes:
   - ./php-config/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini:ro
@@ -302,6 +319,7 @@ networks:
 ## 🎓 Best Practices Implementate
 
 ### Sicurezza
+
 - ✅ Container non-root (user mapping)
 - ✅ Database non esposto esternamente
 - ✅ Secrets in file .env (non versionato)
@@ -309,12 +327,14 @@ networks:
 - ✅ Configurazione PHP hardened
 
 ### Performance
+
 - ✅ PHP memory limit ottimizzato (256MB)
 - ✅ Execution time adeguato (300s)
 - ✅ Upload ottimizzato (100MB)
 - ✅ Volumi persistenti per evitare rebuild
 
 ### Manutenibilità
+
 - ✅ Scripts automatizzati per fix comuni
 - ✅ Documentazione completa
 - ✅ Logs accessibili
@@ -322,6 +342,7 @@ networks:
 - ✅ Backup automatici
 
 ### DevOps
+
 - ✅ Infrastructure as Code (docker-compose.yml)
 - ✅ CI/CD con GitHub Actions
 - ✅ Deploy automatico
@@ -425,6 +446,7 @@ Per contribuire al progetto:
 ### v1.0.0 - 17 Ottobre 2025
 
 **Features**:
+
 - ✅ Setup completo WordPress + MariaDB + phpMyAdmin
 - ✅ Deploy automatico via GitHub Actions
 - ✅ User mapping per permessi corretti
@@ -434,6 +456,7 @@ Per contribuire al progetto:
 - ✅ Documentazione completa
 
 **Bug Fixes**:
+
 - 🐛 Fix permission denied durante deploy
 - 🐛 Fix REST API "not valid JSON response"
 - 🐛 Fix upload file directory creation error
@@ -469,7 +492,7 @@ Questo progetto è distribuito con licenza MIT. Vedi file `LICENSE` per dettagli
 
 **🎉 Il tuo ambiente WordPress Docker è pronto per la produzione!**
 
-*Last updated: 17 Ottobre 2025*
+---
 
 ## 📞 Quick Start
 
@@ -507,8 +530,7 @@ docker compose ps
 
 1. Vai su `http://localhost:7000`
 2. Completa l'installazione guidata
-3. **Importante**: Vai in `Impostazioni → Permalink` e clicca **Salva modifiche**
-   (Questo genera il file .htaccess per REST API)
+3. **Importante**: Vai in `Impostazioni → Permalink` e clicca **Salva modifiche** (Questo genera il file .htaccess per REST API)
 4. Tutto pronto! 🎉
 
 ### Deploy su Produzione con GitHub Actions
@@ -616,3 +638,7 @@ tar czf wordpress-backup.tar.gz ./wordpress/
 # Backup completo (database + file)
 ./scripts/backup-all.sh  # Se disponibile
 ```
+
+---
+
+*Last updated: 17 Ottobre 2025*
