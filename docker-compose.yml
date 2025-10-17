@@ -29,6 +29,8 @@ services:
     volumes:
       # Bind mount per codice versionabile
       - ./wordpress:/var/www/html
+      # PHP configuration for upload limits
+      - ./php-config/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini:ro
       # NOTE: uploads directory is now part of the bind mount above
       # This ensures proper permissions with user mapping
     depends_on:
