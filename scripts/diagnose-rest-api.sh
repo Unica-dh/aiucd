@@ -11,7 +11,12 @@ docker compose logs --tail=50 wordpress
 echo ""
 
 echo "2. Checking Apache error logs inside container:"
-docker compose exec -T wordpress cat /var/log/apache2/error.log 2>/dev/null | tail -n 30 || echo "Error log not accessible"
+ERROR_LOG=$(docker compose exec -T wordpress sh -c 'test -f /var/log/apache2/error.log && tail -n 30 /var/log/apache2/error.log 2>/dev/null || echo ""' 2>/dev/null)
+if [ -n "$ERROR_LOG" ]; then
+    echo "$ERROR_LOG" | tail -n 30
+else
+    echo "   No error log available or empty"
+fi
 echo ""
 
 echo "3. Testing REST API endpoint:"
@@ -52,7 +57,12 @@ docker compose exec -T wordpress wp option get permalink_structure 2>/dev/null |
 echo ""
 
 echo "8. PHP error log:"
-docker compose exec -T wordpress tail -n 20 /var/log/php-error.log 2>/dev/null || echo "   PHP error log not found"
+PHP_LOG=$(docker compose exec -T wordpress sh -c 'test -f /var/log/php-error.log && tail -n 20 /var/log/php-error.log 2>/dev/null || echo ""' 2>/dev/null)
+if [ -n "$PHP_LOG" ]; then
+    echo "$PHP_LOG"
+else
+    echo "   No PHP error log found (this is normal)"
+fi
 echo ""
 
 echo "=========================================="

@@ -89,7 +89,13 @@ rm -f /tmp/rest-test.json
 echo ""
 
 echo "Step 5: Checking for PHP errors..."
-docker compose exec -T wordpress tail -n 20 /var/log/apache2/error.log 2>/dev/null | grep -i "error\|warning" || echo "   No recent errors found"
+ERROR_LOG=$(docker compose exec -T wordpress sh -c 'test -f /var/log/apache2/error.log && tail -n 20 /var/log/apache2/error.log 2>/dev/null | grep -i "error\|warning" || echo ""' 2>/dev/null)
+if [ -n "$ERROR_LOG" ]; then
+    echo "   Recent errors found:"
+    echo "$ERROR_LOG" | head -n 10
+else
+    echo "   ✅ No recent errors found"
+fi
 echo ""
 
 echo "=========================================="
