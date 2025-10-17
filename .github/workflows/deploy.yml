@@ -14,26 +14,27 @@ jobs:
     steps:
       - name: 🧹 Pre-checkout Cleanup
         run: |
-          echo "Cleaning workspace from Docker-created files..."
+          echo "Fixing permissions for Git checkout..."
           # Stop containers first to release file locks
           docker compose down 2>/dev/null || true
           
-          # Use Docker to change ownership (runs as root inside container)
+          # Fix permissions on wordpress directory using Docker (no sudo needed)
           if [ -d wordpress ]; then
+            echo "Fixing wordpress/ permissions..."
             docker run --rm -v "$(pwd)/wordpress:/workspace" alpine:latest \
-              sh -c "chmod -R 777 /workspace" 2>/dev/null || true
+              sh -c "chmod -R 755 /workspace" 2>/dev/null || true
           fi
           
-          # Now we can safely remove everything
-          rm -rf wordpress 2>/dev/null || true
-          rm -rf database 2>/dev/null || true
+          # Remove only Git metadata that might conflict
+          rm -rf .git/index.lock 2>/dev/null || true
           
-          echo "✅ Workspace cleaned"
+          echo "✅ Permissions fixed, ready for checkout"
       
       - name: 📥 Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          clean: false  # Don't delete untracked files (WordPress runtime files)
       
       - name: 📋 Display deployment info
         run: |
