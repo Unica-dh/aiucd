@@ -4,6 +4,8 @@ services:
     image: wordpress:6.8.3-apache
     container_name: aiucd_wordpress
     restart: unless-stopped
+    # Run as host user to avoid permission issues
+    user: "${DOCKER_UID:-1000}:${DOCKER_GID:-1000}"
     ports:
       - "7000:80"
     environment:
@@ -21,6 +23,9 @@ services:
       WORDPRESS_LOGGED_IN_SALT: ${WORDPRESS_LOGGED_IN_SALT}
       WORDPRESS_NONCE_SALT: ${WORDPRESS_NONCE_SALT}
       WORDPRESS_CONFIG_EXTRA: ${WORDPRESS_CONFIG_EXTRA}
+      # Ensure Apache runs with correct permissions
+      APACHE_RUN_USER: "#${DOCKER_UID:-1000}"
+      APACHE_RUN_GROUP: "#${DOCKER_GID:-1000}"
     volumes:
       # Bind mount per codice versionabile
       - ./wordpress:/var/www/html
