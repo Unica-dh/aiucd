@@ -12,10 +12,21 @@ jobs:
     runs-on: self-hosted  # Usa runner sul server di produzione
     
     steps:
+      - name: 🧹 Pre-checkout Cleanup
+        run: |
+          echo "Fixing permissions on wordpress directory..."
+          # Fix permissions for files created by Docker containers (www-data user)
+          if [ -d wordpress ]; then
+            sudo chown -R $USER:$USER wordpress/ 2>/dev/null || true
+            sudo chmod -R u+w wordpress/ 2>/dev/null || true
+          fi
+          echo "✅ Permissions fixed"
+      
       - name: 📥 Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          clean: true
       
       - name: 📋 Display deployment info
         run: |
