@@ -29,8 +29,8 @@ services:
     volumes:
       # Bind mount per codice versionabile
       - ./wordpress:/var/www/html
-      # Volume separato per uploads (file utente)
-      - wordpress_uploads:/var/www/html/wp-content/uploads
+      # NOTE: uploads directory is now part of the bind mount above
+      # This ensures proper permissions with user mapping
     depends_on:
       - db
     networks:
@@ -69,8 +69,7 @@ services:
 
 # Named Volumes for Data Persistence
 volumes:
-  wordpress_uploads:
-    driver: local
+  # wordpress_uploads volume removed - now using bind mount with proper permissions
   db_data:
     driver: local
 
