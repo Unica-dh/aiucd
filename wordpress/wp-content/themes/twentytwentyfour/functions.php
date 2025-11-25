@@ -215,13 +215,16 @@ function aiucd_polylang_shortcode() {
 		$links = array();
 		foreach ( $languages as $lang ) {
 			$flag = $lang['flag'];
+			// Increase flag size (approx double standard size)
+			$flag = str_replace( '<img', '<img style="width: 32px; height: auto;"', $flag );
+			
 			if ( $lang['current_lang'] ) {
-				$links[] = '<span class="current-lang">' . $flag . '</span>';
+				$links[] = '<span class="current-lang" style="display:flex;">' . $flag . '</span>';
 			} else {
-				$links[] = '<a href="' . esc_url( $lang['url'] ) . '" style="text-decoration:none; border:none;">' . $flag . '</a>';
+				$links[] = '<a href="' . esc_url( $lang['url'] ) . '" style="text-decoration:none; border:none; display:flex;">' . $flag . '</a>';
 			}
 		}
-		return '<div class="polylang-switcher" style="display:flex; gap:10px; align-items:center;">' . implode( '', $links ) . '</div>';
+		return '<div class="polylang-switcher" style="display:flex; gap:15px; align-items:center;">' . implode( '', $links ) . '</div>';
 	}
 	return '';
 }
