@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Akismet Anti-spam: Spam Protection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2025-11-13 11:55:26+0000\n"
+"PO-Revision-Date: 2025-12-08 17:47:25+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,34 @@ msgstr ""
 "X-Generator: GlotPress/4.0.3\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - Akismet Anti-spam: Spam Protection - Stable (latest release)\n"
+
+#: views/setup.php:71
+msgid "Get started"
+msgstr "Inizia ora"
+
+#: views/setup.php:60
+msgid "Name your own price for personal sites. Businesses start on a paid plan."
+msgstr "Scegli il prezzo che preferisci per i siti personali. Le aziende iniziano con un piano a pagamento."
+
+#: views/setup.php:57
+msgid "Flexible pricing"
+msgstr "Flexible pricing"
+
+#: views/setup.php:49
+msgid "Seamlessly integrates with plugins like Elementor, Contact Form 7, Jetpack and WPForms."
+msgstr "Si integra perfettamente con plugin come Elementor, Contact Form 7, Jetpack e WPForms."
+
+#: views/setup.php:46
+msgid "Works with popular contact forms"
+msgstr "Funziona con i più comuni moduli di contatto"
+
+#: views/setup.php:38
+msgid "Akismet runs quietly in the background, saving you hours of manual moderation."
+msgstr "Akismet funziona silenziosamente in background, risparmiandoti ore di moderazione manuale."
+
+#: views/setup.php:35
+msgid "Zero effort"
+msgstr "Nessuno sforzo"
 
 #: views/notice.php:364
 msgid "Increase your limit"
@@ -108,6 +136,10 @@ msgstr "Visualizza la documentazione"
 #: views/compatible-plugins.php:87
 msgid "Documentation for %s"
 msgstr "Documentazione per %s"
+
+#: views/compatible-plugins.php:29
+msgid "See supported integrations"
+msgstr "Vedi le integrazioni supportate"
 
 #: views/compatible-plugins.php:22
 msgid "Akismet works with other plugins to keep spam away."
@@ -254,6 +286,11 @@ msgstr "(si apre in una nuova scheda)"
 #: views/notice.php:370
 msgid "Upgrade to %s"
 msgstr "Aggiorna a %s"
+
+#: views/notice.php:312 views/notice.php:320 views/notice.php:328
+#: views/notice.php:337
+msgid "Learn more about usage limits"
+msgstr "Approfondisci i limiti di utilizzo."
 
 #. translators: The first placeholder is a date, the second is a (formatted)
 #. number, the third is another formatted number.
