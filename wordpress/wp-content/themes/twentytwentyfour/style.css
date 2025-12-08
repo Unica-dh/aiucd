@@ -43,3 +43,16 @@ body > *,
 .wp-block-site-logo {
 	border: none !important;
 }
+
+/* Remove borders from navigation menu */
+.wp-block-navigation,
+.wp-block-navigation ul,
+.wp-block-navigation li,
+.wp-block-navigation a,
+.wp-block-navigation__submenu-container,
+.wp-block-navigation .wp-block-navigation-item,
+.wp-block-navigation .has-child .wp-block-navigation__submenu-container {
+	border: none !important;
+	box-shadow: none !important;
+	outline: none !important;
+}
