@@ -204,3 +204,27 @@ if ( ! function_exists( 'twentytwentyfour_pattern_categories' ) ) :
 endif;
 
 add_action( 'init', 'twentytwentyfour_pattern_categories' );
+
+/**
+ * Register Polylang Shortcode
+ */
+function aiucd_polylang_shortcode() {
+	if ( function_exists( 'pll_the_languages' ) ) {
+		$args = array( 'raw' => 1, 'show_flags' => 1, 'show_names' => 0 );
+		$languages = pll_the_languages( $args );
+		$links = array();
+		foreach ( $languages as $lang ) {
+			$flag = $lang['flag'];
+			// Increase flag size (approx double standard size)
+			$flag = str_replace( '<img', '<img style="width: 32px; height: auto;"', $flag );
+			if ( $lang['current_lang'] ) {
+				$links[] = '<span class="current-lang" style="display:flex;">' . $flag . '</span>';
+			} else {
+				$links[] = '<a href="' . esc_url( $lang['url'] ) . '" style="text-decoration:none; border:none; display:flex;">' . $flag . '</a>';
+			}
+		}
+		return '<div class="polylang-switcher" style="display:flex; gap:15px; align-items:center;">' . implode( '', $links ) . '</div>';
+	}
+	return '';
+}
+add_shortcode( 'polylang_switcher', 'aiucd_polylang_shortcode' );
