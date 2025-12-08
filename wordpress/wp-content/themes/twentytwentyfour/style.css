@@ -13,3 +13,33 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: twentytwentyfour
 Tags: one-column, custom-colors, custom-menu, custom-logo, editor-style, featured-images, full-site-editing, block-patterns, rtl-language-support, sticky-post, threaded-comments, translation-ready, wide-blocks, block-styles, style-variations, accessibility-ready, blog, portfolio, news
 */
+
+/* Custom AIUCD Styles */
+body,
+html,
+.wp-site-blocks,
+.wp-block-group,
+body > *,
+.has-base-background-color {
+	background-color: #ffffff !important;
+}
+
+.wp-block-site-logo img {
+	border: none !important;
+	box-shadow: none !important;
+	outline: none !important;
+	/* Crop the white border from the image */
+	padding: 0 !important;
+	object-fit: cover !important;
+	clip-path: inset(2px) !important;
+}
+
+.wp-block-site-logo a {
+	border: none !important;
+	outline: none !important;
+	box-shadow: none !important;
+}
+
+.wp-block-site-logo {
+	border: none !important;
+}
