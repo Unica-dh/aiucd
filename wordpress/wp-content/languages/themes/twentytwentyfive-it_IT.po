@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Themes - Twenty Twenty-Five package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2025-11-20 17:14:54+0000\n"
+"PO-Revision-Date: 2025-12-02 11:02:50+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2302,6 +2302,11 @@ msgstr "Sono Nora, avvocata specializzata in cause di interesse pubblico a Denve
 #: patterns/banner-poster.php:51
 msgid "Let’s hear them."
 msgstr "Ascoltiamole."
+
+#: patterns/header-centered.php
+msgctxt "Pattern title"
+msgid "Centered site header"
+msgstr "Header del sito centrato"
 
 #. Author URI of the theme
 #: style.css patterns/footer-centered.php:34 patterns/footer-columns.php:74
