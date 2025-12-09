@@ -34,4 +34,21 @@ body.admin-bar {
 	body.admin-bar { margin-top: 46px; }
 }
 
+/* Make primary inline buttons use the requested color */
+a.wp-block-button__link.wp-element-button,
+.wp-block-button__link.wp-element-button {
+	/* Dark blue background (solid) and white text for contrast */
+	background-color: #000059 !important;
+	color: #ffffff !important;
+	border: none !important;
+}
+
+/* Hover state: slightly darker */
+a.wp-block-button__link.wp-element-button:hover,
+.wp-block-button__link.wp-element-button:focus {
+	background-color: #000044 !important;
+	color: #ffffff !important;
+}
+
+
 
