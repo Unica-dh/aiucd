@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Polylang - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2025-11-16 14:18:31+0000\n"
+"PO-Revision-Date: 2025-12-08 19:05:57+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,15 @@ msgstr ""
 "X-Generator: GlotPress/4.0.3\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - Polylang - Stable (latest release)\n"
+
+#. translators: Post id.
+#: modules/wpml/wpml-legacy-api.php:265
+msgid "No such post for ID = %d"
+msgstr "Nessun post con ID = %d"
+
+#: modules/wpml/wpml-legacy-api.php:259
+msgid "Missing post ID"
+msgstr "ID post mancante"
 
 #: settings/settings-url.php:70
 msgid "Some themes or plugins may not be fully compatible with the language defined by domains."
