@@ -5,7 +5,10 @@
 
 if ( ! function_exists( 'aiucd_child_enqueue_parent_style' ) ) {
     function aiucd_child_enqueue_parent_style() {
+        // Enqueue parent style first
         wp_enqueue_style( 'twentytwentyfour-parent-style', get_template_directory_uri() . '/style.css' );
+        // Enqueue child theme stylesheet, dependent on the parent so it loads after
+        wp_enqueue_style( 'aiucd-child-style', get_stylesheet_directory_uri() . '/style.css', array( 'twentytwentyfour-parent-style' ), wp_get_theme( get_stylesheet() )->get( 'Version' ) );
     }
 }
 add_action( 'wp_enqueue_scripts', 'aiucd_child_enqueue_parent_style' );

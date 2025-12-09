@@ -7,4 +7,31 @@ Template: twentytwentyfour
 Version: 1.0
 */
 
-@import url("../twentytwentyfour/style.css");
+/* Add custom child theme styles below. Parent styles are enqueued from the child functions.php */
+
+/* Ensure the admin toolbar is visible and contrasts with the site header for logged-in users */
+#wpadminbar {
+	position: fixed !important;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 99999;
+	background: rgba(35,40,45,0.95) !important; /* dark semi-opaque background */
+	color: #fff !important;
+}
+
+/* Ensure toolbar links are readable */
+#wpadminbar * {
+	color: #fff !important;
+}
+
+/* When admin bar is present make sure content is not hidden under it */
+body.admin-bar {
+	margin-top: 32px; /* default admin bar height */
+}
+
+@media (max-width: 782px) {
+	body.admin-bar { margin-top: 46px; }
+}
+
+
