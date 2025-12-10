@@ -1,0 +1,12 @@
+{
+  "apiVersion": 3,
+  "name": "aiucd-theme/menu-dinamico",
+  "title": "Menu Dinamico Multilingua",
+  "category": "widgets",
+  "icon": "menu",
+  "description": "Mostra il menu corretto in base alla lingua corrente (Polylang)",
+  "supports": {
+    "html": false
+  },
+  "textdomain": "aiucd-theme"
+}

@@ -48,3 +48,38 @@ endif;
 
 add_action( 'init', 'aiucd_child_block_styles' );
 
+/**
+ * STEP 1: Registra la posizione menu 'primary'
+ * Anche TT4 (FSE) rispetta register_nav_menus per compatibilità
+ */
+function aiucd_register_nav_menus() {
+    register_nav_menus( array(
+        'primary' => __( 'Primary Menu', 'aiucd-theme' ),
+    ) );
+}
+add_action( 'after_setup_theme', 'aiucd_register_nav_menus' );
+
+/**
+ * STEP 2: Assegna automaticamente i menu alle lingue
+ * Menu IDs:
+ * - 25: Header menu IT (italiano)
+ * - 37: Header menu EN (inglese)
+ */
+function aiucd_assign_menus_to_languages() {
+    if ( ! function_exists( 'pll_current_language' ) ) {
+        return;
+    }
+
+    $current_lang = pll_current_language();
+    
+    // Imposta dinamicamente il menu in base alla lingua
+    add_filter( 'theme_mod_nav_menu_locations', function( $locations ) use ( $current_lang ) {
+        if ( $current_lang === 'it' ) {
+            $locations['primary'] = 25; // Header menu IT
+        } elseif ( $current_lang === 'en' ) {
+            $locations['primary'] = 37; // Header menu EN
+        }
+        return $locations;
+    } );
+}
+add_action( 'wp', 'aiucd_assign_menus_to_languages' );
