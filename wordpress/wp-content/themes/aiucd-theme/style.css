@@ -251,13 +251,36 @@ ul#menu-menu-en a:hover {
 }
 
 @media (max-width: 768px) {
+	/* Header su due righe: logo+titolo, poi menu+bandiere */
+	banber, header {
+		display: flex !important;
+		flex-direction: column !important;
+		gap: 0.5rem !important;
+	}
+	
+	/* La riga con logo e titolo mantiene comportamento normale */
+	banber > div:first-child,
+	header > div:first-child {
+		display: flex !important;
+		justify-content: space-between !important;
+		align-items: center !important;
+	}
+	
+	/* Seconda riga: container per menu e bandiere - allineati a destra */
+	banber > div:last-child,
+	header > div:last-child {
+		display: flex !important;
+		justify-content: flex-end !important;
+		align-items: center !important;
+		gap: 1rem !important;
+	}
+	
 	/* Container del menu su mobile - deve contenere menu aperto */
 	.menu-menu-it-container,
 	.menu-menu-en-container {
 		position: relative !important;
-		width: 100% !important; /* Full width per contenere il menu */
 		display: flex !important;
-		justify-content: flex-end !important; /* Allinea hamburger a destra */
+		justify-content: flex-end !important;
 	}
 	
 	/* Mostra hamburger button su mobile */
@@ -303,17 +326,19 @@ ul#menu-menu-en a:hover {
 	
 	ul[id^="menu-menu-"] {
 		flex-direction: column !important;
-		width: calc(100vw - 2rem) !important; /* Full width meno padding */
-		max-width: 375px !important;
-		gap: 0.5rem !important;
-		background: white !important;
-		padding: 1rem !important;
-		box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
-		position: absolute !important;
-		top: 50px !important; /* Sotto il pulsante hamburger */
-		right: 0 !important;
-		z-index: 999 !important;
-		border-radius: 4px !important;
+		width: calc(100vw - 3rem) !important; /* Margine laterale */
+		max-width: 320px !important;
+		gap: 0 !important;
+		background: #ffffff !important;
+		padding: 0.75rem !important;
+		box-shadow: 0 8px 24px rgba(0,0,0,0.3) !important; /* Ombra più evidente */
+		border: 1px solid #ddd !important;
+		position: fixed !important; /* Fixed per posizionamento rispetto al viewport */
+		top: 100px !important; /* Sotto header */
+		right: 1rem !important; /* Margine dal bordo destro */
+		left: auto !important;
+		z-index: 1000 !important;
+		border-radius: 8px !important;
 	}
 	
 	/* Mostra menu quando è aperto - SPECIFICITÀ MASSIMA con selettore attributo */
@@ -330,18 +355,31 @@ ul#menu-menu-en a:hover {
 	ul#menu-menu-it li,
 	ul#menu-menu-en li {
 		width: 100% !important;
-		border-bottom: 1px solid #eee !important;
-		padding: 0.5rem 0 !important;
+		border-bottom: 1px solid #e5e5e5 !important;
+		padding: 0 !important;
+		margin: 0 !important;
+		list-style: none !important;
 	}
 	
-	/* Link menu mobile - più grandi per touch */
+	/* Ultimo item senza bordo */
+	ul.menu li:last-child,
+	ul#menu-menu-it li:last-child,
+	ul#menu-menu-en li:last-child {
+		border-bottom: none !important;
+	}
+	
+	/* Link menu mobile - più grandi e visibili per touch */
 	.wp-block-navigation .wp-block-navigation-item a,
 	.wp-block-navigation .menu a,
 	ul.menu a,
 	ul#menu-menu-it a,
 	ul#menu-menu-en a {
-		padding: 0.75rem 0 !important;
-		font-size: 1.1rem !important;
+		padding: 1rem 0.5rem !important;
+		font-size: 16px !important;
+		color: #111 !important;
+		font-weight: 500 !important;
+		text-decoration: none !important;
+		display: block !important;
 	}
 	
 	/* Sottomenu mobile - già visibili sotto il parent */
