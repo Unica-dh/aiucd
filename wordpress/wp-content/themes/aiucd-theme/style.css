@@ -251,6 +251,15 @@ ul#menu-menu-en a:hover {
 }
 
 @media (max-width: 768px) {
+	/* Container del menu su mobile - deve contenere menu aperto */
+	.menu-menu-it-container,
+	.menu-menu-en-container {
+		position: relative !important;
+		width: 100% !important; /* Full width per contenere il menu */
+		display: flex !important;
+		justify-content: flex-end !important; /* Allinea hamburger a destra */
+	}
+	
 	/* Mostra hamburger button su mobile */
 	.mobile-menu-toggle {
 		display: block !important;
@@ -262,7 +271,6 @@ ul#menu-menu-en a:hover {
 		height: 40px !important;
 		position: relative !important;
 		z-index: 1001 !important;
-		margin-left: auto !important; /* Allinea a destra */
 	}
 	
 	/* Linee hamburger */
@@ -295,16 +303,17 @@ ul#menu-menu-en a:hover {
 	
 	ul[id^="menu-menu-"] {
 		flex-direction: column !important;
-		width: 100% !important;
+		width: calc(100vw - 2rem) !important; /* Full width meno padding */
+		max-width: 375px !important;
 		gap: 0.5rem !important;
 		background: white !important;
 		padding: 1rem !important;
-		box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+		box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
 		position: absolute !important;
-		top: 100% !important;
-		left: 0 !important;
+		top: 50px !important; /* Sotto il pulsante hamburger */
 		right: 0 !important;
 		z-index: 999 !important;
+		border-radius: 4px !important;
 	}
 	
 	/* Mostra menu quando è aperto - SPECIFICITÀ MASSIMA con selettore attributo */
