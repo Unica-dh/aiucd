@@ -126,25 +126,44 @@ ul#menu-menu-it ul,
 ul#menu-menu-en ul {
 	display: none !important;
 	position: absolute !important;
+	top: 100% !important; /* Attaccato sotto il parent */
+	left: 0 !important;
 	background: white !important;
 	box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
 	padding: 0.5rem 0 !important;
-	margin-top: 0.5rem !important;
+	margin: 0 !important; /* RIMOSSO margin-top per attaccare padre e figlio */
 	min-width: 200px !important;
 	list-style: none !important;
 	flex-direction: column !important;
 	z-index: 1000 !important;
+	opacity: 0 !important;
+	visibility: hidden !important;
+	transition: opacity 0.2s ease, visibility 0s 0.2s !important; /* Delay sulla scomparsa */
 }
 
-/* Posizionamento relativo per item con sottomenu */
+/* Posizionamento relativo per item con sottomenu + padding extra per area hover */
 .wp-block-navigation .menu-item-has-children,
 ul.menu .menu-item-has-children,
 ul#menu-menu-it .menu-item-has-children,
-ul#menu-menu-en .menu-item-has-children {
+ul#menu-menu-en .menu-item-has-children,
+ul.menu li:has(ul),
+ul#menu-menu-it li:has(ul),
+ul#menu-menu-en li:has(ul) {
 	position: relative !important;
 }
 
-/* Mostra sottomenu al passaggio del mouse */
+/* Estendi area hover del link padre per facilitare il passaggio */
+.wp-block-navigation .menu-item-has-children > a,
+ul.menu .menu-item-has-children > a,
+ul#menu-menu-it .menu-item-has-children > a,
+ul#menu-menu-en .menu-item-has-children > a,
+ul.menu li:has(ul) > a,
+ul#menu-menu-it li:has(ul) > a,
+ul#menu-menu-en li:has(ul) > a {
+	padding-bottom: 0.75rem !important; /* Estende l'area hover verso il basso */
+}
+
+/* Mostra sottomenu al passaggio del mouse - con transizione fluida */
 .wp-block-navigation .wp-block-navigation-item:hover > .wp-block-navigation__submenu-container,
 .wp-block-navigation .menu li:hover > .sub-menu,
 ul.menu li:hover > .sub-menu,
@@ -157,6 +176,9 @@ ul.menu .menu-item-has-children:hover > .sub-menu,
 ul#menu-menu-it .menu-item-has-children:hover > .sub-menu,
 ul#menu-menu-en .menu-item-has-children:hover > .sub-menu {
 	display: block !important;
+	opacity: 1 !important;
+	visibility: visible !important;
+	transition: opacity 0.2s ease, visibility 0s 0s !important; /* Appare subito, scompare con delay */
 }
 
 /* Stili per item sottomenu */
