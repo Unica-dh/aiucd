@@ -2,6 +2,87 @@
 
 > 🚀 **Ambiente WordPress professionale con Docker Compose** - Deploy automatico, permessi corretti, upload fino a 100MB
 
+---
+
+## 🌐 Il Sito AIUCD2026 Cagliari
+
+![AIUCD2026 Homepage](images/aiucd2026-homepage.png)
+
+Il sito web **[AIUCD2026.unica.it](https://www.aiucd2026.unica.it/)** è la piattaforma ufficiale del **XV Convegno annuale dell'Associazione per l'Informatica Umanistica e la Cultura Digitale (AIUCD)**, che si terrà a **Cagliari dal 3 al 5 giugno 2026**.
+
+### 🎯 Tema del Convegno: "Digitale e Public Engagement"
+
+Il convegno esplora come le tecnologie digitali aprono nuove forme di partecipazione attiva nella ricerca umanistica. Dalla co-creazione con le comunità ai processi collaborativi di documentazione e valorizzazione del patrimonio culturale, l'evento mette al centro pratiche, strumenti e metodologie che rendono la conoscenza più aperta, condivisa e inclusiva.
+
+### 📑 Sezioni Principali del Sito
+
+#### **Convegno**
+
+La sezione dedicata al convegno include:
+
+- **Call for Papers**: Informazioni dettagliate per la presentazione di contributi (comunicazioni orali e poster)
+- **Organizzazione**: Comitati scientifici e organizzativi
+- **Aree Tematiche**:
+  - DH e co-costruzione del sapere con le comunità
+  - Archivi ed edizioni critiche digitali
+  - Testualità digitali e analisi computazionale
+  - Rappresentazione di dati e conoscenza (Linked Open Data, ontologie)
+  - Memorie, Storia e patrimoni culturali digitali
+
+#### **Programma**
+
+Programma provvisorio del convegno articolato su tre giornate:
+
+- **Mercoledì 3 giugno 2026**: Registrazione, saluti istituzionali, apertura e prime sessioni scientifiche
+- **Giovedì 4 giugno 2026**: Sessioni scientifiche e Assemblea AIUCD
+- **Venerdì 5 giugno 2026**: Sessioni finali e Key Lecture conclusiva
+
+Ogni giornata prevede sessioni parallele, pause caffè e momenti di networking.
+
+#### **Registrazione**
+
+Sistema di iscrizione al convegno per partecipanti, relatori e membri AIUCD.
+
+#### **Local Info**
+
+Informazioni pratiche su:
+
+- Sede del convegno (Università degli Studi di Cagliari)
+- Alloggi e strutture ricettive
+- Informazioni turistiche su Cagliari e la Sardegna
+- Collegamenti e trasporti
+
+### 🗓️ Scadenze Importanti
+
+- **18 gennaio 2026**: Scadenza invio proposte (abstract 3-5 pagine)
+- **15 marzo 2026**: Notifica di accettazione
+- **17 maggio 2026**: Invio versioni finali camera ready
+- **3-5 giugno 2026**: Svolgimento del convegno
+
+### 📚 Pubblicazione Atti
+
+Gli atti del convegno saranno pubblicati con **DOI e ISBN**, liberamente consultabili tramite:
+
+- Sito web AIUCD
+- Portale «Umanistica Digitale»
+
+### 🏛️ Organizzazione
+
+Il convegno è organizzato da **DH UNICA** - Centro Interdipartimentale per l'Umanistica Digitale dell'Università degli Studi di Cagliari, in collaborazione con AIUCD.
+
+### 🌍 Lingue
+
+Il sito è disponibile in **italiano** e **inglese**, con traduzione completa di tutti i contenuti principali.
+
+### 📱 Social Media
+
+Il convegno è attivo sui canali social:
+
+- **Facebook**: [dh.unica](https://www.facebook.com/dh.unica)
+- **Instagram**: [@dh.unica](https://www.instagram.com/dh.unica)
+
+---
+
 ## 📋 Requisiti del Progetto
 
 ### Obiettivo
@@ -500,7 +581,7 @@ Questo progetto è distribuito con licenza MIT. Vedi file `LICENSE` per dettagli
 
 ```bash
 # 1. Clone o naviga nella directory
-cd /home/ale/docker/aiucd
+cd /home/user/aiucd
 
 # 2. Copia e configura le variabili d'ambiente
 cp .env.example .env
@@ -641,4 +722,4 @@ tar czf wordpress-backup.tar.gz ./wordpress/
 
 ---
 
-*Last updated: 17 Ottobre 2025*
+*Last updated: 10 Dicembre 2025*
