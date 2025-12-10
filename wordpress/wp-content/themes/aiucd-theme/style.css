@@ -55,32 +55,51 @@ a.wp-block-button__link.wp-element-button:hover,
 	color: #ffffff !important;
 }
 
-/* Stili per il menu header dinamico - forza layout orizzontale */
-/* Target sia navigation blocks che menu classici */
-.wp-block-navigation.is-vertical,
-.wp-block-navigation__container.is-vertical,
-ul.menu,
-ul#menu-menu-it,
-ul#menu-menu-en {
-	flex-direction: row !important;
+/* ========================================
+   MENU NAVIGATION - RESPONSIVE
+   ======================================== */
+
+/* Container del menu per gestione mobile */
+.menu-menu-it-container,
+.menu-menu-en-container {
+	position: relative;
 }
 
-/* Selettori ad alta specificità per sovrascrivere tema */
-.wp-block-navigation .wp-block-navigation__container,
-.wp-block-navigation .menu,
-ul.menu,
-ul#menu-menu-it,
-ul#menu-menu-en,
-div.menu-menu-it-container ul,
-div.menu-menu-en-container ul {
-	display: flex !important;
-	flex-direction: row !important;
-	list-style: none !important;
-	margin: 0 !important;
-	padding: 0 !important;
-	gap: 2rem !important;
+/* ========================================
+   DESKTOP MENU (tablet e superiore)
+   ======================================== */
+@media (min-width: 769px) {
+	/* Stili per il menu header dinamico - layout orizzontale su desktop */
+	.wp-block-navigation.is-vertical,
+	.wp-block-navigation__container.is-vertical,
+	ul.menu,
+	ul#menu-menu-it,
+	ul#menu-menu-en {
+		flex-direction: row !important;
+	}
+
+	/* Selettori ad alta specificità per sovrascrivere tema */
+	.wp-block-navigation .wp-block-navigation__container,
+	.wp-block-navigation .menu,
+	ul.menu,
+	ul#menu-menu-it,
+	ul#menu-menu-en,
+	div.menu-menu-it-container ul,
+	div.menu-menu-en-container ul {
+		display: flex !important;
+		flex-direction: row !important;
+		list-style: none !important;
+		margin: 0 !important;
+		padding: 0 !important;
+		gap: 2rem !important;
+	}
 }
 
+/* ========================================
+   MENU STYLES - GLOBAL (tutti i dispositivi)
+   ======================================== */
+
+/* Stili comuni per item menu */
 .wp-block-navigation .wp-block-navigation-item,
 .wp-block-navigation .menu li,
 ul.menu li,
@@ -88,9 +107,9 @@ ul#menu-menu-it li,
 ul#menu-menu-en li {
 	list-style: none !important;
 	margin: 0 !important;
-	padding: 0 !important;
 }
 
+/* Stili comuni per link menu */
 .wp-block-navigation .wp-block-navigation-item a,
 .wp-block-navigation .menu a,
 ul.menu a,
@@ -98,7 +117,6 @@ ul#menu-menu-it a,
 ul#menu-menu-en a {
 	text-decoration: none !important;
 	color: inherit !important;
-	padding: 0.5rem 0 !important;
 	display: block !important;
 	transition: opacity 0.2s !important;
 }
@@ -115,99 +133,224 @@ ul#menu-menu-en a:hover {
 	text-decoration: none !important;
 }
 
-/* Sottomenu (dropdown) - nascosti di default */
-.wp-block-navigation .wp-block-navigation__submenu-container,
-.wp-block-navigation .menu .sub-menu,
-ul.menu .sub-menu,
-ul#menu-menu-it .sub-menu,
-ul#menu-menu-en .sub-menu,
-ul.menu ul,
-ul#menu-menu-it ul,
-ul#menu-menu-en ul {
+/* ========================================
+   DESKTOP SPECIFIC (769px+)
+   ======================================== */
+@media (min-width: 769px) {
+	/* Padding per link desktop */
+	.wp-block-navigation .wp-block-navigation-item a,
+	.wp-block-navigation .menu a,
+	ul.menu a,
+	ul#menu-menu-it a,
+	ul#menu-menu-en a {
+		padding: 0.5rem 0 !important;
+	}
+	
+	/* Sottomenu (dropdown) - nascosti di default su DESKTOP */
+	.wp-block-navigation .wp-block-navigation__submenu-container,
+	.wp-block-navigation .menu .sub-menu,
+	ul.menu .sub-menu,
+	ul#menu-menu-it .sub-menu,
+	ul#menu-menu-en .sub-menu,
+	ul.menu ul,
+	ul#menu-menu-it ul,
+	ul#menu-menu-en ul {
+		display: none !important;
+		position: absolute !important;
+		top: 100% !important;
+		left: 0 !important;
+		background: white !important;
+		box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+		padding: 0.5rem 0 !important;
+		margin: 0 !important;
+		min-width: 200px !important;
+		list-style: none !important;
+		flex-direction: column !important;
+		z-index: 1000 !important;
+		opacity: 0 !important;
+		visibility: hidden !important;
+		transition: opacity 0.2s ease, visibility 0s 0.2s !important;
+	}
+
+	/* Posizionamento relativo per item con sottomenu */
+	.wp-block-navigation .menu-item-has-children,
+	ul.menu .menu-item-has-children,
+	ul#menu-menu-it .menu-item-has-children,
+	ul#menu-menu-en .menu-item-has-children,
+	ul.menu li:has(ul),
+	ul#menu-menu-it li:has(ul),
+	ul#menu-menu-en li:has(ul) {
+		position: relative !important;
+	}
+
+	/* Estendi area hover del link padre per facilitare il passaggio */
+	.wp-block-navigation .menu-item-has-children > a,
+	ul.menu .menu-item-has-children > a,
+	ul#menu-menu-it .menu-item-has-children > a,
+	ul#menu-menu-en .menu-item-has-children > a,
+	ul.menu li:has(ul) > a,
+	ul#menu-menu-it li:has(ul) > a,
+	ul#menu-menu-en li:has(ul) > a {
+		padding-bottom: 0.75rem !important;
+	}
+
+	/* Mostra sottomenu al passaggio del mouse - con transizione fluida */
+	.wp-block-navigation .wp-block-navigation-item:hover > .wp-block-navigation__submenu-container,
+	.wp-block-navigation .menu li:hover > .sub-menu,
+	ul.menu li:hover > .sub-menu,
+	ul#menu-menu-it li:hover > .sub-menu,
+	ul#menu-menu-en li:hover > .sub-menu,
+	ul.menu li:hover > ul,
+	ul#menu-menu-it li:hover > ul,
+	ul#menu-menu-en li:hover > ul,
+	ul.menu .menu-item-has-children:hover > .sub-menu,
+	ul#menu-menu-it .menu-item-has-children:hover > .sub-menu,
+	ul#menu-menu-en .menu-item-has-children:hover > .sub-menu {
+		display: block !important;
+		opacity: 1 !important;
+		visibility: visible !important;
+		transition: opacity 0.2s ease, visibility 0s 0s !important;
+	}
+
+	/* Stili per item sottomenu */
+	.wp-block-navigation .wp-block-navigation__submenu-container .wp-block-navigation-item,
+	.wp-block-navigation .menu .sub-menu li,
+	ul.menu .sub-menu li,
+	ul#menu-menu-it .sub-menu li,
+	ul#menu-menu-en .sub-menu li,
+	ul.menu ul li,
+	ul#menu-menu-it ul li,
+	ul#menu-menu-en ul li {
+		padding: 0 !important;
+		margin: 0 !important;
+		list-style: none !important;
+	}
+
+	/* Stili per link sottomenu */
+	.wp-block-navigation .wp-block-navigation__submenu-container a,
+	.wp-block-navigation .menu .sub-menu a,
+	ul.menu .sub-menu a,
+	ul#menu-menu-it .sub-menu a,
+	ul#menu-menu-en .sub-menu a,
+	ul.menu ul a,
+	ul#menu-menu-it ul a,
+	ul#menu-menu-en ul a {
+		padding: 0.5rem 1rem !important;
+		white-space: nowrap !important;
+		display: block !important;
+	}
+}
+
+/* ========================================
+   RESPONSIVE MOBILE MENU
+   ======================================== */
+
+/* Hamburger button - nascosto su desktop */
+.mobile-menu-toggle {
 	display: none !important;
-	position: absolute !important;
-	top: 100% !important; /* Attaccato sotto il parent */
-	left: 0 !important;
-	background: white !important;
-	box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
-	padding: 0.5rem 0 !important;
-	margin: 0 !important; /* RIMOSSO margin-top per attaccare padre e figlio */
-	min-width: 200px !important;
-	list-style: none !important;
-	flex-direction: column !important;
-	z-index: 1000 !important;
-	opacity: 0 !important;
-	visibility: hidden !important;
-	transition: opacity 0.2s ease, visibility 0s 0.2s !important; /* Delay sulla scomparsa */
 }
 
-/* Posizionamento relativo per item con sottomenu + padding extra per area hover */
-.wp-block-navigation .menu-item-has-children,
-ul.menu .menu-item-has-children,
-ul#menu-menu-it .menu-item-has-children,
-ul#menu-menu-en .menu-item-has-children,
-ul.menu li:has(ul),
-ul#menu-menu-it li:has(ul),
-ul#menu-menu-en li:has(ul) {
-	position: relative !important;
+@media (max-width: 768px) {
+	/* Mostra hamburger button su mobile */
+	.mobile-menu-toggle {
+		display: block !important;
+		background: transparent !important;
+		border: none !important;
+		cursor: pointer !important;
+		padding: 0.5rem !important;
+		width: 40px !important;
+		height: 40px !important;
+		position: relative !important;
+		z-index: 1001 !important;
+		margin-left: auto !important; /* Allinea a destra */
+	}
+	
+	/* Linee hamburger */
+	.mobile-menu-toggle .hamburger-line {
+		display: block !important;
+		width: 25px !important;
+		height: 3px !important;
+		background-color: #000 !important;
+		margin: 5px 0 !important;
+		transition: all 0.3s ease !important;
+	}
+	
+	/* Animazione hamburger -> X quando aperto */
+	.mobile-menu-toggle.is-active .hamburger-line:nth-child(1) {
+		transform: rotate(45deg) translate(6px, 6px) !important;
+	}
+	
+	.mobile-menu-toggle.is-active .hamburger-line:nth-child(2) {
+		opacity: 0 !important;
+	}
+	
+	.mobile-menu-toggle.is-active .hamburger-line:nth-child(3) {
+		transform: rotate(-45deg) translate(6px, -6px) !important;
+	}
+	
+	/* Su mobile: menu verticale in colonna - NASCOSTO di default */
+	ul[id^="menu-menu-"]:not(.is-open) {
+		display: none !important;
+	}
+	
+	ul[id^="menu-menu-"] {
+		flex-direction: column !important;
+		width: 100% !important;
+		gap: 0.5rem !important;
+		background: white !important;
+		padding: 1rem !important;
+		box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+		position: absolute !important;
+		top: 100% !important;
+		left: 0 !important;
+		right: 0 !important;
+		z-index: 999 !important;
+	}
+	
+	/* Mostra menu quando è aperto - SPECIFICITÀ MASSIMA con selettore attributo */
+	ul[id^="menu-menu-"].is-open {
+		display: flex !important;
+		opacity: 1 !important;
+		padding: 1rem !important;
+	}
+	
+	/* Item menu mobile */
+	.wp-block-navigation .wp-block-navigation-item,
+	.wp-block-navigation .menu li,
+	ul.menu li,
+	ul#menu-menu-it li,
+	ul#menu-menu-en li {
+		width: 100% !important;
+		border-bottom: 1px solid #eee !important;
+		padding: 0.5rem 0 !important;
+	}
+	
+	/* Link menu mobile - più grandi per touch */
+	.wp-block-navigation .wp-block-navigation-item a,
+	.wp-block-navigation .menu a,
+	ul.menu a,
+	ul#menu-menu-it a,
+	ul#menu-menu-en a {
+		padding: 0.75rem 0 !important;
+		font-size: 1.1rem !important;
+	}
+	
+	/* Sottomenu mobile - già visibili sotto il parent */
+	ul.menu .sub-menu,
+	ul#menu-menu-it .sub-menu,
+	ul#menu-menu-en .sub-menu,
+	ul.menu ul,
+	ul#menu-menu-it ul,
+	ul#menu-menu-en ul {
+		position: static !important;
+		box-shadow: none !important;
+		padding-left: 1rem !important;
+		margin-top: 0.5rem !important;
+		background: #f9f9f9 !important;
+		display: block !important; /* Sempre visibili su mobile */
+		opacity: 1 !important;
+		visibility: visible !important;
+	}
 }
-
-/* Estendi area hover del link padre per facilitare il passaggio */
-.wp-block-navigation .menu-item-has-children > a,
-ul.menu .menu-item-has-children > a,
-ul#menu-menu-it .menu-item-has-children > a,
-ul#menu-menu-en .menu-item-has-children > a,
-ul.menu li:has(ul) > a,
-ul#menu-menu-it li:has(ul) > a,
-ul#menu-menu-en li:has(ul) > a {
-	padding-bottom: 0.75rem !important; /* Estende l'area hover verso il basso */
-}
-
-/* Mostra sottomenu al passaggio del mouse - con transizione fluida */
-.wp-block-navigation .wp-block-navigation-item:hover > .wp-block-navigation__submenu-container,
-.wp-block-navigation .menu li:hover > .sub-menu,
-ul.menu li:hover > .sub-menu,
-ul#menu-menu-it li:hover > .sub-menu,
-ul#menu-menu-en li:hover > .sub-menu,
-ul.menu li:hover > ul,
-ul#menu-menu-it li:hover > ul,
-ul#menu-menu-en li:hover > ul,
-ul.menu .menu-item-has-children:hover > .sub-menu,
-ul#menu-menu-it .menu-item-has-children:hover > .sub-menu,
-ul#menu-menu-en .menu-item-has-children:hover > .sub-menu {
-	display: block !important;
-	opacity: 1 !important;
-	visibility: visible !important;
-	transition: opacity 0.2s ease, visibility 0s 0s !important; /* Appare subito, scompare con delay */
-}
-
-/* Stili per item sottomenu */
-.wp-block-navigation .wp-block-navigation__submenu-container .wp-block-navigation-item,
-.wp-block-navigation .menu .sub-menu li,
-ul.menu .sub-menu li,
-ul#menu-menu-it .sub-menu li,
-ul#menu-menu-en .sub-menu li,
-ul.menu ul li,
-ul#menu-menu-it ul li,
-ul#menu-menu-en ul li {
-	padding: 0 !important;
-	margin: 0 !important;
-	list-style: none !important;
-}
-
-/* Stili per link sottomenu */
-.wp-block-navigation .wp-block-navigation__submenu-container a,
-.wp-block-navigation .menu .sub-menu a,
-ul.menu .sub-menu a,
-ul#menu-menu-it .sub-menu a,
-ul#menu-menu-en .sub-menu a,
-ul.menu ul a,
-ul#menu-menu-it ul a,
-ul#menu-menu-en ul a {
-	padding: 0.5rem 1rem !important;
-	white-space: nowrap !important;
-	display: block !important;
-}
-
 
 
