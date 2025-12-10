@@ -39,5 +39,8 @@ Thumbs.db
 *.swp
 *.swo
 
+# Playwright screenshots
+.playwright-mcp/
+
 # Docker
 docker-compose.override.yml
